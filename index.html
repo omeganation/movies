@@ -16,6 +16,31 @@
             <h2>Movie Title</h2>
             <p>Price: 200 RWF</p>
             <button class="watch-btn" onclick="payForMovie()">Watch Now</button>
+            <button id="payButton">Pay 200 RWF</button>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  function payWithPaystack() {
+    let handler = PaystackPop.setup({
+      key: "https://paystack.com/pay/norb3juw7-", // Replace with your Paystack Public Key
+      email: "user@example.com",
+      amount: 200 * 100, // Convert to kobo (smallest currency unit)
+      currency: "RWF",
+      ref: "MOVIE_" + Math.floor(Math.random() * 1000000), // Unique transaction reference
+      callback: function (response) {
+        alert("Payment Successful! Transaction ref: " + response.reference);
+        window.location.href = "watch-movie.html"; // Redirect to movie page
+      },
+      onClose: function () {
+        alert("Payment window closed.");
+      },
+    });
+    handler.openIframe();
+  }
+
+  document.getElementById("payButton").onclick = payWithPaystack;
+</script>
+
         </div>
     </main>
     <script src="script.js"></script>
